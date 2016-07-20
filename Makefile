@@ -1,6 +1,6 @@
 # Count words.
 results.txt : isles.dat abyss.dat last.dat
-	python zipf_test.py abyss.dat isles.dat last.dat > results.txt
+	python zipf_test.py $^ > $@
 
 .PHONY : dats
 dats: isles.dat abyss.dat last.dat
