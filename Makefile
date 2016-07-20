@@ -1,18 +1,19 @@
-# Count words.
-results.txt : isles.dat abyss.dat last.dat
+# Generate summary table.
+results.txt : *.dat
 	python zipf_test.py $^ > $@
 
+#Count words
 .PHONY : dats
 dats: isles.dat abyss.dat last.dat
 
 isles.dat : books/isles.txt
-	python wordcount.py books/isles.txt isles.dat
+	python wordcount.py $< $@
 
 abyss.dat : books/abyss.txt
-	python wordcount.py books/abyss.txt abyss.dat
+	python wordcount.py $< $@
 
 last.dat : books/last.txt
-	python wordcount.py books/last.txt last.dat
+	python wordcount.py $< $@
 
 .PHONY : clean
 clean : 
