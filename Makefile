@@ -1,8 +1,17 @@
 include config.mk
 
+ARCHIVE_DIR=zipf_analysis
 TXT_FILES=$(wildcard books/*.txt)
 DAT_FILES=$(patsubst books/%.txt, %.dat, $(TXT_FILES))
 PNG_FILES=$(patsubst books/%.txt, %.png, $(TXT_FILES))
+
+## archive     : create an archive containing all code, data, plots, and summary table
+FILE_LIST=$(TXT_FILES) $(DAT_FILES) $(PNG_FILES) $(COUNT_SRC) $(ZIPF_SRC) $(PLOT_SRC) results.txt Makefile config.mk
+.PHONY : archive
+archive : results.txt $(PNG_FILES)
+	mkdir -p $(ARCHIVE_DIR)
+	cp $(FILE_LIST) $(ARCHIVE_DIR)
+	tar -czf zipf_analysis.tar.gz $(ARCHIVE_DIR)
 
 ## all         : Generate Zipf summary table and plots of word counts.
 .PHONY : all
@@ -31,6 +40,7 @@ pngs : $(PNG_FILES)
 .PHONY : clean
 clean : 
 	rm -f $(DAT_FILES) $(PNG_FILES) results.txt
+	rm -rf $(ARCHIVE_DIR)
 
 ## variables   : Print variables.
 .PHONY: variables
